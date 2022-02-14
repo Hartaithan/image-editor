@@ -1,13 +1,32 @@
 <template>
   <div class="home">
-    <img v-if="false" />
+    <img class="home__img" v-if="img" :src="img" />
     <p v-else>Изображение не добавлено</p>
   </div>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts">
+import { computed, defineComponent } from "vue";
+import { useStore } from "@/store";
+import { MutationType } from "@/models/storeModel";
+
+export default defineComponent({
+  setup() {
+    const store = useStore();
+
+    document.onpaste = (e: ClipboardEvent) => {
+      const dT = e.clipboardData || (window as any).clipboardData;
+      const file = dT.files[0];
+      store.commit(MutationType.SetImage, window.URL.createObjectURL(file));
+    };
+
+    return {
+      img: computed(() => store.state.img),
+    };
+  },
+});
 </script>
 
-<style lang="scss">
-@import url("../styles/home.scss");
+<style lang="scss" scoped>
+@import "../styles/home.scss";
 </style>

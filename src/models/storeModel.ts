@@ -9,7 +9,7 @@ export type Store = Omit<VuexStore<State>, "commit"> & {
 };
 
 export type State = {
-  img: Blob | null;
+  img: Blob | string | null;
 };
 
 export enum MutationType {
@@ -17,5 +17,5 @@ export enum MutationType {
 }
 
 export type Mutations = {
-  [MutationType.SetImage](state: State, img: Blob): void;
+  [MutationType.SetImage](state: State, img: string): void;
 };
