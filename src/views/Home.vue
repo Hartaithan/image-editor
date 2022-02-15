@@ -2,7 +2,14 @@
   <div class="home">
     <p v-if="!img">Изображение не добавлено</p>
     <div class="home__wrapper">
-      <canvas class="home__canvas" v-if="img" ref="canvas" />
+      <canvas
+        class="home__canvas"
+        v-if="img"
+        ref="canvas"
+        @mousedown="startDrawing"
+        @mousemove="drawing"
+        @mouseup="finishDrawing"
+      />
     </div>
   </div>
 </template>
@@ -16,6 +23,8 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const canvas = ref<HTMLCanvasElement | null>(null);
+    const ctx = ref<CanvasRenderingContext2D | null>(null);
+    const isDrawing = ref<boolean>(false);
 
     document.onpaste = (e: ClipboardEvent) => {
       const data = e.clipboardData || (window as any).clipboardData;
@@ -25,18 +34,52 @@ export default defineComponent({
       image.src = URL.createObjectURL(file);
       image.onload = function () {
         if (canvas.value) {
-          console.log("width and heigth", image.width, image.height);
           canvas.value.width = image.width;
           canvas.value.height = image.height;
-          var ctx = canvas.value.getContext("2d");
-          ctx?.drawImage(image, 0, 0);
+          ctx.value = canvas.value.getContext("2d");
+          if (ctx.value) {
+            ctx.value.drawImage(image, 0, 0);
+            ctx.value.lineCap = "round";
+            ctx.value.strokeStyle = "#000000";
+            ctx.value.lineWidth = 1;
+          }
         }
       };
+    };
+
+    const startDrawing = (event: MouseEvent) => {
+      const { offsetX, offsetY } = event;
+      if (ctx.value) {
+        isDrawing.value = true;
+        ctx.value.beginPath();
+        ctx.value.moveTo(offsetX, offsetY);
+      }
+    };
+
+    const drawing = (event: MouseEvent) => {
+      if (!isDrawing.value) {
+        return;
+      }
+      const { offsetX, offsetY } = event;
+      if (ctx.value) {
+        ctx.value.lineTo(offsetX, offsetY);
+        ctx.value.stroke();
+      }
+    };
+
+    const finishDrawing = () => {
+      if (ctx.value) {
+        ctx.value.closePath();
+        isDrawing.value = false;
+      }
     };
 
     return {
       img: computed(() => store.state.imgUrl),
       canvas,
+      startDrawing,
+      drawing,
+      finishDrawing,
     };
   },
 });
