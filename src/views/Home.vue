@@ -15,13 +15,13 @@ export default defineComponent({
     const store = useStore();
 
     document.onpaste = (e: ClipboardEvent) => {
-      const dT = e.clipboardData || (window as any).clipboardData;
-      const file = dT.files[0];
-      store.commit(MutationType.SetImage, window.URL.createObjectURL(file));
+      const data = e.clipboardData || (window as any).clipboardData;
+      const file = data.files[0];
+      store.commit(MutationType.SetImage, file);
     };
 
     return {
-      img: computed(() => store.state.img),
+      img: computed(() => store.state.imgUrl),
     };
   },
 });
