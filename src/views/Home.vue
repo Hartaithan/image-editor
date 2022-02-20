@@ -1,7 +1,8 @@
 <template>
   <div class="home">
-    <p v-if="!img">Изображение не добавлено</p>
+    <FileInput />
     <div class="home__wrapper">
+      <p v-if="!img">Изображение не добавлено</p>
       <canvas
         class="home__canvas"
         v-if="img"
@@ -15,11 +16,15 @@
 </template>
 
 <script lang="ts">
+import FileInput from "../components/FileInput.vue";
 import { computed, defineComponent, ref } from "vue";
 import { useStore } from "@/store";
 import { MutationType } from "@/models/storeModel";
 
 export default defineComponent({
+  components: {
+    FileInput: FileInput,
+  },
   setup() {
     const store = useStore();
     const canvas = ref<HTMLCanvasElement | null>(null);
