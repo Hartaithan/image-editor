@@ -44,37 +44,26 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from "vue";
+<script setup lang="ts">
+import { ref } from "vue";
 import { useStore } from "@/store";
 import { IEventFileInput } from "@/models/IFileInputModel";
 import { MutationType } from "@/models/storeModel";
 
-export default defineComponent({
-  name: "FileInput",
-  setup() {
-    const store = useStore();
-    const inputRef = ref<HTMLInputElement | null>(null);
+const store = useStore();
+const inputRef = ref<HTMLInputElement | null>(null);
 
-    const triggerInput = () => {
-      console.log("trigger");
-      if (inputRef.value) {
-        inputRef.value.click();
-      }
-    };
+const triggerInput = () => {
+  console.log("trigger");
+  if (inputRef.value) {
+    inputRef.value.click();
+  }
+};
 
-    const handleInput = (event: IEventFileInput) => {
-      const blob = event.target.files[0];
-      store.commit(MutationType.SetImage, blob);
-    };
-
-    return {
-      inputRef,
-      triggerInput,
-      handleInput,
-    };
-  },
-});
+const handleInput = (event: IEventFileInput) => {
+  const blob = event.target.files[0];
+  store.commit(MutationType.SetImage, blob);
+};
 </script>
 
 <style lang="scss" scoped>
