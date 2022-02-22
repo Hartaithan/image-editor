@@ -22,6 +22,7 @@ import { useStore } from "@/store";
 import { MutationType } from "@/models/storeModel";
 
 const store = useStore();
+const img = computed(() => store.state.imgUrl);
 const canvas = ref<HTMLCanvasElement | null>(null);
 const ctx = ref<CanvasRenderingContext2D | null>(null);
 const isDrawing = ref<boolean>(false);
