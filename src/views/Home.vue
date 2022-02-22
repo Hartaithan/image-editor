@@ -26,6 +26,8 @@ const img = computed(() => store.state.imgUrl);
 const canvas = ref<HTMLCanvasElement | null>(null);
 const ctx = ref<CanvasRenderingContext2D | null>(null);
 const isDrawing = ref<boolean>(false);
+let multipleX = 1;
+let multipleY = 1;
 
 document.onpaste = (e: ClipboardEvent) => {
   const data = e.clipboardData || (window as any).clipboardData;
@@ -35,14 +37,21 @@ document.onpaste = (e: ClipboardEvent) => {
   image.src = URL.createObjectURL(file);
   image.onload = function () {
     if (canvas.value) {
+      if (image.width > image.height) {
+        multipleX = image.width / 1080;
+        multipleY = image.width / image.height;
+      } else {
+        multipleX = 1;
+        multipleY = 1;
+      }
       canvas.value.width = image.width;
       canvas.value.height = image.height;
       ctx.value = canvas.value.getContext("2d");
       if (ctx.value) {
         ctx.value.drawImage(image, 0, 0);
         ctx.value.lineCap = "round";
-        ctx.value.strokeStyle = "#000000";
-        ctx.value.lineWidth = 1;
+        ctx.value.strokeStyle = "red";
+        ctx.value.lineWidth = 10;
       }
     }
   };
@@ -53,7 +62,7 @@ const startDrawing = (event: MouseEvent) => {
   if (ctx.value) {
     isDrawing.value = true;
     ctx.value.beginPath();
-    ctx.value.moveTo(offsetX, offsetY);
+    ctx.value.moveTo(offsetX * multipleX, offsetY * multipleY);
   }
 };
 
@@ -63,7 +72,7 @@ const drawing = (event: MouseEvent) => {
   }
   const { offsetX, offsetY } = event;
   if (ctx.value) {
-    ctx.value.lineTo(offsetX, offsetY);
+    ctx.value.lineTo(offsetX * multipleX, offsetY * multipleY);
     ctx.value.stroke();
   }
 };
