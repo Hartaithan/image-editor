@@ -26,8 +26,12 @@ const img = computed(() => store.state.imgUrl);
 const canvas = ref<HTMLCanvasElement | null>(null);
 const ctx = ref<CanvasRenderingContext2D | null>(null);
 const isDrawing = ref<boolean>(false);
+
 let multipleX = 1;
 let multipleY = 1;
+
+const wrapperX = 1080;
+const wrapperY = 779;
 
 const wrapImageInCanvas = (file: Blob) => {
   const image = new Image();
@@ -35,11 +39,11 @@ const wrapImageInCanvas = (file: Blob) => {
   image.onload = function () {
     if (canvas.value) {
       if (image.width > image.height) {
-        multipleX = image.width / 1080;
-        multipleY = image.width / image.height;
+        multipleX = image.width / wrapperX;
+        multipleY = wrapperY / (wrapperY / (image.width / wrapperX));
       } else {
-        multipleX = 1080 / (1080 / (image.height / 779));
-        multipleY = image.height / 779;
+        multipleX = wrapperX / (wrapperX / (image.height / wrapperY));
+        multipleY = image.height / wrapperY;
       }
       canvas.value.width = image.width;
       canvas.value.height = image.height;
