@@ -2,8 +2,10 @@
 
 .fileInput {
   height: 100px;
+  min-height: 100px;
   width: 100%;
   margin: 0 auto;
+  margin-bottom: 10px;
   &__view {
     height: 100%;
     width: 100%;
