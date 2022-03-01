@@ -38,8 +38,8 @@ const wrapImageInCanvas = (file: Blob) => {
         multipleX = image.width / 1080;
         multipleY = image.width / image.height;
       } else {
-        multipleX = 1;
-        multipleY = 1;
+        multipleX = 1080 / (1080 / (image.height / 779));
+        multipleY = image.height / 779;
       }
       canvas.value.width = image.width;
       canvas.value.height = image.height;

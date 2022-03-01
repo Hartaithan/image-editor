@@ -58,7 +58,6 @@ const emit = defineEmits<{
 }>();
 
 const triggerInput = () => {
-  console.log("trigger");
   if (inputRef.value) {
     inputRef.value.click();
   }
