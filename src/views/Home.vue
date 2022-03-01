@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <FileInput />
+    <FileInput :wrapImageInCanvas="wrapImageInCanvas" />
     <div class="home__wrapper">
       <p v-if="!img">Изображение не добавлено</p>
       <canvas
@@ -29,10 +29,7 @@ const isDrawing = ref<boolean>(false);
 let multipleX = 1;
 let multipleY = 1;
 
-document.onpaste = (e: ClipboardEvent) => {
-  const data = e.clipboardData || (window as any).clipboardData;
-  const file = data.files[0];
-  store.commit(MutationType.SetImage, file);
+const wrapImageInCanvas = (file: Blob) => {
   const image = new Image();
   image.src = URL.createObjectURL(file);
   image.onload = function () {
@@ -55,6 +52,13 @@ document.onpaste = (e: ClipboardEvent) => {
       }
     }
   };
+};
+
+document.onpaste = (e: ClipboardEvent) => {
+  const data = e.clipboardData || (window as any).clipboardData;
+  const file = data.files[0];
+  store.commit(MutationType.SetImage, file);
+  wrapImageInCanvas(file);
 };
 
 const startDrawing = (event: MouseEvent) => {

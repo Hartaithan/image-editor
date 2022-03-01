@@ -45,13 +45,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, defineProps } from "vue";
 import { useStore } from "@/store";
 import { IEventFileInput } from "@/models/IFileInputModel";
 import { MutationType } from "@/models/storeModel";
 
 const store = useStore();
 const inputRef = ref<HTMLInputElement | null>(null);
+
+const props = defineProps(["wrapImageInCanvas"]);
 
 const triggerInput = () => {
   console.log("trigger");
@@ -63,6 +65,7 @@ const triggerInput = () => {
 const handleInput = (event: IEventFileInput) => {
   const blob = event.target.files[0];
   store.commit(MutationType.SetImage, blob);
+  props.wrapImageInCanvas(blob);
 };
 </script>
 
