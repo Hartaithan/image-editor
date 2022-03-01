@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <FileInput :wrapImageInCanvas="wrapImageInCanvas" />
+    <FileInput @wrapImageInCanvas="wrapImageInCanvas" />
     <div class="home__wrapper">
       <p v-if="!img">Изображение не добавлено</p>
       <canvas
