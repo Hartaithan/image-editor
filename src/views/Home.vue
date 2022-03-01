@@ -1,6 +1,9 @@
 <template>
   <div class="home">
-    <FileInput @wrapImageInCanvas="wrapImageInCanvas" />
+    <Header
+      @wrapImageInCanvas="wrapImageInCanvas"
+      @downloadCanvas="downloadCanvas"
+    />
     <div class="home__wrapper">
       <p v-if="!img">Изображение не добавлено</p>
       <canvas
@@ -16,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import FileInput from "../components/FileInput.vue";
+import Header from "../components/Header.vue";
 import { computed, defineComponent, ref } from "vue";
 import { useStore } from "@/store";
 import { MutationType } from "@/models/storeModel";
@@ -89,6 +92,18 @@ const finishDrawing = () => {
   if (ctx.value) {
     ctx.value.closePath();
     isDrawing.value = false;
+  }
+};
+
+const downloadCanvas = () => {
+  if (canvas.value) {
+    const link = document.createElement("a");
+    link.href = canvas.value.toDataURL();
+    link.setAttribute("visibility", "hidden");
+    link.download = "image.png";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 };
 </script>

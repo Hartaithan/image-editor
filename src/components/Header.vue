@@ -1,7 +1,7 @@
 <template>
-  <div class="fileInput">
-    <div class="fileInput__view">
-      <div class="fileInput__dropzone" @click="triggerInput">
+  <div class="header">
+    <div class="header__view">
+      <div class="header__dropzone" @click="triggerInput">
         <svg
           version="1.1"
           xmlns="http://www.w3.org/2000/svg"
@@ -30,12 +30,15 @@
         </svg>
         <div>
           <p>Drop you file here, or browse</p>
-          <p>Supports only .mp3 files</p>
+          <p>Supports only images</p>
         </div>
+      </div>
+      <div class="header__download" v-if="true">
+        <button @click="emit('downloadCanvas')">Download</button>
       </div>
     </div>
     <input
-      class="fileInput__input"
+      class="header__input"
       name="myFile"
       type="file"
       ref="inputRef"
@@ -45,16 +48,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineEmits } from "vue";
+import { ref, defineEmits, computed } from "vue";
 import { useStore } from "@/store";
-import { IEventFileInput } from "@/models/IFileInputModel";
+import { IEventHeader } from "@/models/IHeaderModel";
 import { MutationType } from "@/models/storeModel";
 
 const store = useStore();
+const img = computed(() => store.state.imgUrl);
 const inputRef = ref<HTMLInputElement | null>(null);
 
 const emit = defineEmits<{
   (e: "wrapImageInCanvas", file: Blob): void;
+  (e: "downloadCanvas"): void;
 }>();
 
 const triggerInput = () => {
@@ -63,7 +68,7 @@ const triggerInput = () => {
   }
 };
 
-const handleInput = (event: IEventFileInput) => {
+const handleInput = (event: IEventHeader) => {
   const blob = event.target.files[0];
   store.commit(MutationType.SetImage, blob);
   emit("wrapImageInCanvas", blob);
@@ -71,5 +76,5 @@ const handleInput = (event: IEventFileInput) => {
 </script>
 
 <style lang="scss" scoped>
-@import "../styles/fileInput.scss";
+@import "../styles/header.scss";
 </style>
