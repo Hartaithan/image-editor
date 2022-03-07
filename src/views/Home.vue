@@ -31,7 +31,7 @@ let multipleX = 1;
 let multipleY = 1;
 
 const wrapperX = 1080;
-const wrapperY = 779;
+const wrapperY = 839;
 
 const wrapImageInCanvas = (file: Blob) => {
   const image = new Image();
@@ -63,6 +63,18 @@ document.onpaste = (e: ClipboardEvent) => {
   const file = data.files[0];
   store.commit(MutationType.SetImage, file);
   wrapImageInCanvas(file);
+};
+
+document.oncopy = () => {
+  if (canvas.value) {
+    canvas.value.toBlob((blob: Blob | null) => {
+      blob !== null && navigator.clipboard.write([
+        new window.ClipboardItem({
+          [blob.type]: blob
+        })
+      ])
+    })
+  }
 };
 
 const startDrawing = (event: MouseEvent) => {
