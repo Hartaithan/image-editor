@@ -1,9 +1,6 @@
 <template>
   <div class="home">
-    <Header
-      @wrapImageInCanvas="wrapImageInCanvas"
-      @downloadCanvas="downloadCanvas"
-    />
+    <Header @wrapImageInCanvas="wrapImageInCanvas" @downloadCanvas="downloadCanvas" />
     <div class="home__wrapper">
       <p v-if="!img">Изображение не добавлено</p>
       <canvas
@@ -20,7 +17,7 @@
 
 <script setup lang="ts">
 import Header from "../components/Header.vue";
-import { computed, defineComponent, ref } from "vue";
+import { computed, ref } from "vue";
 import { useStore } from "@/store";
 import { MutationType } from "@/models/storeModel";
 
