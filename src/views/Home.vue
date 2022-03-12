@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <Header @wrapImageInCanvas="wrapImageInCanvas" @downloadCanvas="downloadCanvas" />
-    <div class="home__wrapper">
+    <div class="home__wrapper" ref="wrapper">
       <p v-if="!img">Изображение не добавлено</p>
       <canvas
         class="home__canvas"
@@ -17,12 +17,13 @@
 
 <script setup lang="ts">
 import Header from "../components/Header.vue";
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useStore } from "@/store";
 import { MutationType } from "@/models/storeModel";
 
 const store = useStore();
 const img = computed(() => store.state.imgUrl);
+const wrapper = ref<HTMLDivElement | null>(null);
 const canvas = ref<HTMLCanvasElement | null>(null);
 const ctx = ref<CanvasRenderingContext2D | null>(null);
 const isDrawing = ref<boolean>(false);
@@ -30,8 +31,15 @@ const isDrawing = ref<boolean>(false);
 let multipleX = 1;
 let multipleY = 1;
 
-const wrapperX = 1080;
-const wrapperY = 839;
+let wrapperX = 1080;
+let wrapperY = 839;
+
+onMounted(() => {
+  if (wrapper.value) {
+    wrapperX = wrapper.value.clientWidth
+    wrapperY = wrapper.value.clientHeight
+  }
+})
 
 const wrapImageInCanvas = (file: Blob) => {
   const image = new Image();
