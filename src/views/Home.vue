@@ -8,8 +8,11 @@
         v-if="img"
         ref="canvas"
         @mousedown="startDrawing"
-        @mousemove="drawing"
         @mouseup="finishDrawing"
+        @mousemove="drawing"
+        @touchstart="startDrawing"
+        @touchend="finishDrawing"
+        @touchmove="drawing"
       />
     </div>
   </div>
@@ -87,23 +90,42 @@ document.oncopy = () => {
   }
 };
 
-const startDrawing = (event: MouseEvent) => {
-  const { offsetX, offsetY } = event;
-  if (ctx.value) {
-    isDrawing.value = true;
-    ctx.value.beginPath();
-    ctx.value.moveTo(offsetX * multipleX, offsetY * multipleY);
+const startDrawing = (event: MouseEvent | TouchEvent) => {
+  if (event instanceof MouseEvent) {
+    const { offsetX, offsetY } = event;
+    if (ctx.value) {
+      isDrawing.value = true;
+      ctx.value.beginPath();
+      ctx.value.moveTo(offsetX * multipleX, offsetY * multipleY);
+    }
+  }
+  if (event instanceof TouchEvent) {
+    const { pageX, pageY } = event.changedTouches[0];
+    if (ctx.value) {
+      isDrawing.value = true;
+      ctx.value.beginPath();
+      ctx.value.moveTo(pageX * multipleX, pageY * multipleY);
+    }
   }
 };
 
-const drawing = (event: MouseEvent) => {
+const drawing = (event: MouseEvent | TouchEvent) => {
   if (!isDrawing.value) {
     return;
   }
-  const { offsetX, offsetY } = event;
-  if (ctx.value) {
-    ctx.value.lineTo(offsetX * multipleX, offsetY * multipleY);
-    ctx.value.stroke();
+  if (event instanceof MouseEvent) {
+    const { offsetX, offsetY } = event;
+    if (ctx.value) {
+      ctx.value.lineTo(offsetX * multipleX, offsetY * multipleY);
+      ctx.value.stroke();
+    }
+  }
+  if (event instanceof TouchEvent) {
+    const { pageX, pageY } = event.changedTouches[0];
+    if (ctx.value) {
+      ctx.value.lineTo(pageX * multipleX, pageY * multipleY);
+      ctx.value.stroke();
+    }
   }
 };
 
