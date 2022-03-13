@@ -91,18 +91,15 @@ document.oncopy = () => {
 };
 
 const startDrawing = (event: MouseEvent | TouchEvent) => {
-  if (event instanceof MouseEvent) {
-    const { offsetX, offsetY } = event;
-    if (ctx.value) {
-      isDrawing.value = true;
+  if (ctx.value) {
+    isDrawing.value = true;
+    if (event instanceof MouseEvent) {
+      const { offsetX, offsetY } = event;
       ctx.value.beginPath();
       ctx.value.moveTo(offsetX * multipleX, offsetY * multipleY);
     }
-  }
-  if (event instanceof TouchEvent) {
-    const { pageX, pageY } = event.changedTouches[0];
-    if (ctx.value) {
-      isDrawing.value = true;
+    if (event instanceof TouchEvent) {
+      const { pageX, pageY } = event.changedTouches[0];
       ctx.value.beginPath();
       ctx.value.moveTo(pageX * multipleX, pageY * multipleY);
     }
@@ -113,16 +110,14 @@ const drawing = (event: MouseEvent | TouchEvent) => {
   if (!isDrawing.value) {
     return;
   }
-  if (event instanceof MouseEvent) {
-    const { offsetX, offsetY } = event;
-    if (ctx.value) {
+  if (ctx.value) {
+    if (event instanceof MouseEvent) {
+      const { offsetX, offsetY } = event;
       ctx.value.lineTo(offsetX * multipleX, offsetY * multipleY);
       ctx.value.stroke();
     }
-  }
-  if (event instanceof TouchEvent) {
-    const { pageX, pageY } = event.changedTouches[0];
-    if (ctx.value) {
+    if (event instanceof TouchEvent) {
+      const { pageX, pageY } = event.changedTouches[0];
       ctx.value.lineTo(pageX * multipleX, pageY * multipleY);
       ctx.value.stroke();
     }
