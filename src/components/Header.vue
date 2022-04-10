@@ -1,7 +1,8 @@
 <template>
   <div class="header">
     <div class="header__view">
-      <div class="header__dropzone" @click="triggerInput">
+      <div class="header__dropzone" @click="triggerInput" @drop="handleDrop" @dragover="handleDragOver"
+        @dragenter="handleDragEnter" @dragleave="handleDragLeave">
         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
           viewBox="0 0 512 512" xml:space="preserve">
           <path d="M21.333,21.333h213.333v96c0,5.867,4.8,10.667,10.667,10.667h96v74.667h21.333v-85.333c0-1.067-0.32-2.133-0.64-3.2
@@ -53,6 +54,29 @@ const handleInput = (event: Event) => {
   store.commit(MutationType.SetImage, blob);
   emit("wrapImageInCanvas", blob);
 };
+
+const handleDrop = (event: DragEvent) => {
+  event.preventDefault();
+  const blob: File | undefined = event.dataTransfer?.files[0];
+  if (blob) {
+    store.commit(MutationType.SetImage, blob);
+    emit("wrapImageInCanvas", blob);
+  }
+}
+
+const handleDragOver = (event: Event) => {
+  event.preventDefault();
+}
+
+const handleDragEnter = (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  target.classList.add('on-drag');
+}
+
+const handleDragLeave = (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  target.classList.remove('on-drag');
+}
 </script>
 
 <style lang="scss" scoped>@import "../styles/header.scss";</style>
