@@ -3,17 +3,8 @@
     <Header @wrapImageInCanvas="wrapImageInCanvas" @downloadCanvas="downloadCanvas" />
     <div class="home__wrapper" ref="wrapper">
       <p v-if="!img">Изображение не добавлено</p>
-      <canvas
-        class="home__canvas"
-        v-if="img"
-        ref="canvas"
-        @mousedown="startDrawing"
-        @mouseup="finishDrawing"
-        @mousemove="drawing"
-        @touchstart="startDrawing"
-        @touchend="finishDrawing"
-        @touchmove="drawing"
-      />
+      <canvas class="home__canvas" v-if="img" ref="canvas" @mousedown="startDrawing" @mouseup="finishDrawing"
+        @mousemove="drawing" @touchstart="startDrawing" @touchend="finishDrawing" @touchmove="drawing" />
     </div>
   </div>
 </template>
@@ -144,6 +135,4 @@ const downloadCanvas = () => {
 };
 </script>
 
-<style lang="scss" scoped>
-@import "../styles/home.scss";
-</style>
+<style lang="scss" scoped>@import "../styles/home.scss";</style>
