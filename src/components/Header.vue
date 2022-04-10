@@ -62,6 +62,7 @@ const handleDrop = (event: DragEvent) => {
     store.commit(MutationType.SetImage, blob);
     emit("wrapImageInCanvas", blob);
   }
+  (event.target as HTMLInputElement).classList.remove('on-drag');
 }
 
 const handleDragOver = (event: Event) => {

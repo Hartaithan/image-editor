@@ -28,6 +28,9 @@
     border-radius: 8px;
     padding: 10px;
     cursor: pointer;
+    * {
+      pointer-events: none;
+    }
     svg {
       width: 40px;
       fill: $c-text;
@@ -63,4 +66,9 @@
       }
     }
   }
+}
+
+.on-drag {
+  border: 1px dashed $c-text;
+  background: $c-element-hover;
 }
