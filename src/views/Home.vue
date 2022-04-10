@@ -2,7 +2,7 @@
   <div class="home">
     <Header @wrapImageInCanvas="wrapImageInCanvas" @downloadCanvas="downloadCanvas" />
     <div class="home__wrapper" ref="wrapper">
-      <p v-if="!img">Изображение не добавлено</p>
+      <p v-if="!img">Image not added</p>
       <canvas class="home__canvas" v-if="img" ref="canvas" @mousedown="startDrawing" @mouseup="finishDrawing"
         @mousemove="drawing" @touchstart="startDrawing" @touchend="finishDrawing" @touchmove="drawing" />
     </div>
