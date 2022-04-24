@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <Header @wrapImageInCanvas="wrapImageInCanvas" @downloadCanvas="downloadCanvas" />
+    <Input @wrapImageInCanvas="wrapImageInCanvas" @downloadCanvas="downloadCanvas" />
     <div class="home__wrapper" ref="wrapper">
       <p v-if="!img">Image not added</p>
       <canvas class="home__canvas" v-if="img" ref="canvas" @mousedown="startDrawing" @mouseup="finishDrawing"
@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import Header from "../components/Header.vue";
+import Input from "../components/Input.vue";
 import { computed, onMounted, ref } from "vue";
 import { useStore } from "@/store";
 import { MutationType } from "@/models/storeModel";

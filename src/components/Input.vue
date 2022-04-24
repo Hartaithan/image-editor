@@ -1,7 +1,7 @@
 <template>
-  <div class="header">
-    <div class="header__view">
-      <div class="header__dropzone" @click="triggerInput" @drop="handleDrop" @dragover="handleDragOver"
+  <div class="input">
+    <div class="input__view">
+      <div class="input__dropzone" @click="triggerInput" @drop="handleDrop" @dragover="handleDragOver"
         @dragenter="handleDragEnter" @dragleave="handleDragLeave">
         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
           viewBox="0 0 512 512" xml:space="preserve">
@@ -21,11 +21,11 @@
           <p>Supports only images</p>
         </div>
       </div>
-      <div class="header__download" v-if="true">
+      <div class="input__download" v-if="true">
         <button @click="emit('downloadCanvas')">Download</button>
       </div>
     </div>
-    <input class="header__input" name="myFile" type="file" ref="inputRef" @change="handleInput" />
+    <input class="input__input" name="myFile" type="file" ref="inputRef" @change="handleInput" />
   </div>
 </template>
 
@@ -83,7 +83,7 @@ const handleDragLeave = (event: Event) => {
 <style lang="scss" scoped>
 @import "@/assets/colors.scss";
 
-.header {
+.input {
   height: 80px;
   min-height: 80px;
   width: 100%;
