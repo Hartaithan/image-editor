@@ -1,11 +1,9 @@
 <template>
-  <div class="home">
-    <Input @wrapImageInCanvas="wrapImageInCanvas" @downloadCanvas="downloadCanvas" />
-    <div class="home__wrapper" ref="wrapper">
-      <p v-if="!img">Image not added</p>
-      <canvas class="home__canvas" v-if="img" ref="canvas" @mousedown="startDrawing" @mouseup="finishDrawing"
-        @mousemove="drawing" @touchstart="startDrawing" @touchend="finishDrawing" @touchmove="drawing" />
-    </div>
+  <Input @wrapImageInCanvas="wrapImageInCanvas" @downloadCanvas="downloadCanvas" />
+  <div class="wrapper" ref="wrapper">
+    <p v-if="!img">Image not added</p>
+    <canvas class="canvas" v-if="img" ref="canvas" @mousedown="startDrawing" @mouseup="finishDrawing"
+      @mousemove="drawing" @touchstart="startDrawing" @touchend="finishDrawing" @touchmove="drawing" />
   </div>
 </template>
 
@@ -138,30 +136,17 @@ const downloadCanvas = () => {
 <style lang="scss" scoped>
 @import "@/assets/colors.scss";
 
-.home {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+.wrapper {
+  flex-grow: 1;
   width: 100%;
+  height: calc(100% - 90px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  &__img {
-    height: fit-content;
-    width: 100%;
-    object-fit: contain;
-  }
-
-  &__wrapper {
-    flex-grow: 1;
-    width: 100%;
-    height: calc(100% - 90px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  &__canvas {
-    max-width: 100%;
-    max-height: 100%;
-  }
+.canvas {
+  max-width: 100%;
+  max-height: 100%;
 }
 </style>
