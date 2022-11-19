@@ -29,3 +29,8 @@ body {
   width: 100%;
   max-width: 1080px;
 }
+
+.on-drag {
+  border: 1px dashed $c-text;
+  background: $c-element-hover;
+}

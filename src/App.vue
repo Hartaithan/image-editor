@@ -1,5 +1,10 @@
 <template>
-  <Input @wrapImageInCanvas="wrapImageInCanvas" @downloadCanvas="downloadCanvas" />
+  <header>
+    <Dropzone @click="handlers.triggerInput" @drop="handlers.handleDrop" @dragover="handlers.handleDragOver"
+      @dragenter="handlers.handleDragEnter" @dragleave="handlers.handleDragLeave" />
+    <Download @downloadCanvas="downloadCanvas" />
+    <Input ref="input" @wrapImageInCanvas="wrapImageInCanvas" />
+  </header>
   <div class="wrapper" ref="wrapper">
     <p v-if="!img">Image not added</p>
     <canvas class="canvas" v-if="img" ref="canvas" @mousedown="startDrawing" @mouseup="finishDrawing"
@@ -12,10 +17,13 @@ import { computed, onMounted, ref } from "vue";
 import { useStore } from "@/store";
 import { MutationType } from "@/models/storeModel";
 import Input from "./components/Input.vue";
+import Dropzone from "./components/Dropzone.vue";
+import Download from "./components/Download.vue";
 
 const store = useStore();
 const img = computed(() => store.state.imgUrl);
 const wrapper = ref<HTMLDivElement | null>(null);
+const input = ref(null);
 const canvas = ref<HTMLCanvasElement | null>(null);
 const ctx = ref<CanvasRenderingContext2D | null>(null);
 const isDrawing = ref<boolean>(false);
@@ -131,6 +139,15 @@ const downloadCanvas = () => {
     document.body.removeChild(link);
   }
 };
+
+const handlers = {
+  handleInput: () => input.value && input.value.handleInput(),
+  triggerInput: () => input.value && input.value.triggerInput(),
+  handleDrop: (event: DragEvent) => input.value && input.value.handleDrop(event),
+  handleDragOver: (event: DragEvent) => input.value && input.value.handleDragOver(event),
+  handleDragEnter: (event: DragEvent) => input.value && input.value.handleDragEnter(event),
+  handleDragLeave: (event: DragEvent) => input.value && input.value.handleDragLeave(event),
+};
 </script>
 
 <style lang="scss" scoped>
@@ -148,5 +165,20 @@ const downloadCanvas = () => {
 .canvas {
   max-width: 100%;
   max-height: 100%;
+}
+
+header {
+  height: 80px;
+  min-height: 80px;
+  width: 100%;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background: $c-element;
+  border-radius: 8px;
+  padding: 8px;
 }
 </style>
