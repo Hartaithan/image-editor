@@ -16,6 +16,7 @@
 import { computed, onMounted, ref } from "vue";
 import { useStore } from "@/store";
 import { MutationType } from "@/models/storeModel";
+import { IInputMethods } from "@/models/inputModel";
 import Input from "./components/Input.vue";
 import Dropzone from "./components/Dropzone.vue";
 import Download from "./components/Download.vue";
@@ -23,7 +24,7 @@ import Download from "./components/Download.vue";
 const store = useStore();
 const img = computed(() => store.state.imgUrl);
 const wrapper = ref<HTMLDivElement | null>(null);
-const input = ref(null);
+const input = ref<IInputMethods | null>(null);
 const canvas = ref<HTMLCanvasElement | null>(null);
 const ctx = ref<CanvasRenderingContext2D | null>(null);
 const isDrawing = ref<boolean>(false);
@@ -141,7 +142,7 @@ const downloadCanvas = () => {
 };
 
 const handlers = {
-  handleInput: () => input.value && input.value.handleInput(),
+  handleInput: (event: Event) => input.value && input.value.handleInput(event),
   triggerInput: () => input.value && input.value.triggerInput(),
   handleDrop: (event: DragEvent) => input.value && input.value.handleDrop(event),
   handleDragOver: (event: DragEvent) => input.value && input.value.handleDragOver(event),

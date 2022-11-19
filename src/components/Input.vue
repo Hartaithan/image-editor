@@ -6,13 +6,13 @@
 import { ref, defineEmits, defineExpose } from "vue";
 import { useStore } from "@/store";
 import { MutationType } from "@/models/storeModel";
+import { IInputMethods } from "@/models/inputModel";
 
 const store = useStore();
 const inputRef = ref<HTMLInputElement | null>(null);
 
 const emit = defineEmits<{
   (e: "wrapImageInCanvas", file: Blob): void;
-  (e: "downloadCanvas"): void;
 }>();
 
 const triggerInput = () => {
@@ -52,7 +52,7 @@ const handleDragLeave = (event: Event) => {
   target.classList.remove('on-drag');
 };
 
-defineExpose({
+defineExpose<IInputMethods>({
   inputRef,
   handleInput,
   triggerInput,
